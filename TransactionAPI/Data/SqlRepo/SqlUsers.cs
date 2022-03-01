@@ -26,11 +26,11 @@ namespace TransactionAPI.Data.SqlRepo
             Users tok = GetUserByEmail(user.Email);
             if (tok == null)
             {
-                _ctx.Users.Add(tok);
+                _ctx.Users.Add(user);
             }
             else
             {
-                _ctx.Users.Update(tok);
+                _ctx.Users.Update(user);
             }
             _ctx.SaveChanges();
         }

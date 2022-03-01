@@ -30,7 +30,7 @@ namespace TransactionAPI.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto model)
+        public async Task<IActionResult> Login([FromForm] LoginDto model)
         {
             Users selectedUser = _user.GetUserByEmail(model.Email);
             if(selectedUser != null)
@@ -74,7 +74,7 @@ namespace TransactionAPI.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto model)
+        public async Task<IActionResult> Register([FromForm] RegisterDto model)
         {
             Users selectedUser = _user.GetUserByEmail(model.Email);
             if (selectedUser == null)

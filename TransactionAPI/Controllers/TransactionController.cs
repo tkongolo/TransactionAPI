@@ -23,7 +23,7 @@ namespace TransactionAPI.Controllers
         [Authorize]
         [HttpPost]
         [Route("topup")]
-        public async Task<IActionResult> AddAmount([FromBody] AmountDto model)
+        public async Task<IActionResult> AddAmount([FromForm] AmountDto model)
         {
             var currentUser = HttpContext.User;
             if(currentUser.HasClaim(c => c.Type == "Email"))
@@ -40,6 +40,7 @@ namespace TransactionAPI.Controllers
 
                         var newLedgerRecord = new UserLedger();
                         newLedgerRecord.User = selectedUser;
+                        newLedgerRecord.TransactionType = "TOPUP";
                         newLedgerRecord.PreviousBalance = previousBalanceLedge.FinalBalance;
                         newLedgerRecord.Amount = model.Amount;
                         newLedgerRecord.FinalBalance = newLedgerRecord.PreviousBalance + newLedgerRecord.Amount;
@@ -63,7 +64,7 @@ namespace TransactionAPI.Controllers
         [Authorize]
         [HttpPost]
         [Route("deduct")]
-        public async Task<IActionResult> DeductAmount([FromBody] AmountDto model)
+        public async Task<IActionResult> DeductAmount([FromForm] AmountDto model)
         {
             var currentUser = HttpContext.User;
             if (currentUser.HasClaim(c => c.Type == "Email"))
@@ -80,6 +81,7 @@ namespace TransactionAPI.Controllers
 
                         var newLedgerRecord = new UserLedger();
                         newLedgerRecord.User = selectedUser;
+                        newLedgerRecord.TransactionType = "DEDUCT";
                         newLedgerRecord.PreviousBalance = previousBalanceLedge.FinalBalance;
                         newLedgerRecord.Amount = model.Amount;
                         newLedgerRecord.FinalBalance = newLedgerRecord.PreviousBalance - newLedgerRecord.Amount;

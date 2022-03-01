@@ -10,9 +10,9 @@ namespace TransactionAPI.Data
 
         }
 
-        public DbSet<UserLedger>? UserLedgers { get; set; }
-        public DbSet<UserLoginToken>? UserLoginTokens { get; set; }
-        public DbSet<UserResetToken>? UserResetTokens { get; set; }
-        public DbSet<Users>? Users { get; set; }
+        public DbSet<UserLedger> UserLedgers { get; set; }
+        public DbSet<UserLoginToken> UserLoginTokens { get; set; }
+        public DbSet<UserResetToken> UserResetTokens { get; set; }
+        public DbSet<Users> Users { get; set; }
     }
 }
