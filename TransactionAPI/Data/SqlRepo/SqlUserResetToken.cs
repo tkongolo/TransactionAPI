@@ -5,19 +5,31 @@ namespace TransactionAPI.Data.SqlRepo
 {
     public class SqlUserResetToken : IUserResetToken
     {
+        private readonly TransactionContext _ctx;
+
+        public SqlUserResetToken(TransactionContext ctx)
+        {
+            _ctx = ctx;
+        }
+
         public UserResetToken GetResetTokenByUser(Users user)
         {
-            throw new NotImplementedException();
+            return _ctx.UserResetTokens.FirstOrDefault(p => p.User == user);
         }
 
-        public void SaveResetToken(string token)
+        public void SaveResetToken(UserResetToken token)
         {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateResetToken(string token, Users user)
-        {
-            throw new NotImplementedException();
+            UserResetToken tok = GetResetTokenByUser(token.User);
+            if (tok == null)
+            {
+                _ctx.UserResetTokens.Add(token);
+            }
+            else
+            {
+                tok.ResetToken = token.ResetToken;
+                _ctx.UserResetTokens.Update(tok);
+            }
+            _ctx.SaveChanges();
         }
     }
 }

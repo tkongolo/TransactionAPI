@@ -4,9 +4,7 @@ namespace TransactionAPI.Data.IRepo
 {
     public interface IUserResetToken
     {
-        void SaveResetToken(string token);
-        void UpdateResetToken(string token, Users user);
-
+        void SaveResetToken(UserResetToken token);
         UserResetToken GetResetTokenByUser(Users user);
     }
 }

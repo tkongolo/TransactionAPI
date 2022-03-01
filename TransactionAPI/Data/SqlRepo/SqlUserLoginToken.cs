@@ -5,19 +5,30 @@ namespace TransactionAPI.Data.SqlRepo
 {
     public class SqlUserLoginToken : IUserLoginToken
     {
-        public UserLoginToken GetResetTokenByUser(Users user)
+        private readonly TransactionContext _ctx;
+
+        public SqlUserLoginToken(TransactionContext ctx)
         {
-            throw new NotImplementedException();
+            _ctx = ctx;
+        }
+        public UserLoginToken GetLoginTokenByUser(Users user)
+        {
+            return _ctx.UserLoginTokens.FirstOrDefault(p => p.User == user);
         }
 
-        public void SaveLoginToken(string token)
+        public void SaveLoginToken(UserLoginToken token)
         {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateLoginToken(string token, Users user)
-        {
-            throw new NotImplementedException();
+            UserLoginToken tok = GetLoginTokenByUser(token.User);
+            if(tok == null)
+            {
+                _ctx.UserLoginTokens.Add(token);
+            }
+            else
+            {
+                tok.AccessToken = token.AccessToken;
+                _ctx.UserLoginTokens.Update(tok);
+            }
+            _ctx.SaveChanges();
         }
     }
 }

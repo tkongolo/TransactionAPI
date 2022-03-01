@@ -5,14 +5,22 @@ namespace TransactionAPI.Data.SqlRepo
 {
     public class SqlUserLedgerRepo : IUserLedgerRepo
     {
+        private readonly TransactionContext _ctx;
+
+        public SqlUserLedgerRepo(TransactionContext ctx)
+        {
+            _ctx = ctx;
+        }
         public UserLedger GetLatestTransactionByUser(Users user)
         {
-            throw new NotImplementedException();
+            UserLedger? res = _ctx.UserLedgers.Last(p => p.User == user);
+            return res;
         }
 
         public void SaveUserLedger(UserLedger ledger)
         {
-            throw new NotImplementedException();
+            _ctx.UserLedgers.Add(ledger);
+            _ctx.SaveChanges();
         }
     }
 }
